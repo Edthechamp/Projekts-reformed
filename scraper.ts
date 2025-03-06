@@ -1,10 +1,8 @@
 import { EklaseWrapper } from "eklasewrapper"
-
-const username = 
-const password = 
+import { eklaseuserin, eklasepassin } from "eklasefrontend"
 
 (async () => {
-  const wrapper = new EklaseWrapper(username, password);
+  const wrapper = new EklaseWrapper(eklaseuserin, eklasepassin);
 
   // Initialization
 
@@ -21,3 +19,33 @@ const password =
 
     await wrapper.stop();
   })();
+  
+export default EklaseWrapper;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// cau
