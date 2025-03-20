@@ -1,0 +1,74 @@
+body {
+    font-family: 'Inter', sans-serif;
+}
+.roadmap-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+.milestone {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    background-color: #f3f4f6; /* Tailwind's gray-200 */
+    border-radius: 0.5rem; /* Tailwind's rounded-md */
+    border: 1px solid #e5e7eb; /* Tailwind's border-gray-200 */
+}
+.milestone-name {
+    font-weight: 500; /* Tailwind's font-medium */
+}
+.milestone-date {
+    font-size: 0.875rem; /* Tailwind's text-sm */
+    color: #6b7280; /* Tailwind's text-gray-500 */
+}
+.completed {
+    background-color: #d1fae5; /* Tailwind's bg-green-100 */
+    border-color: #10b981; /* Tailwind's border-green-500 */
+    color: #15803d; /* Tailwind's text-green-700 */
+}
+
+/* Custom CSS for the collapsible completed tasks section */
+.collapsible {
+    background-color: #f3f4f6; /* Tailwind's bg-gray-100 */
+    color: #4b5563; /* Tailwind's text-gray-600 */
+    cursor: pointer;
+    padding: 0.75rem 1rem; /* Tailwind's py-3 px-4 */
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 1rem; /* Tailwind's text-base */
+    border-radius: 0.5rem; /* Tailwind's rounded-md */
+    transition: background-color 0.3s ease; /* Smooth transition */
+    margin-top: 0.5rem; /* Tailwind's mt-2 */
+    border: 1px solid #e5e7eb;
+}
+
+.collapsible:hover {
+    background-color: #e5e7eb; /* Tailwind's bg-gray-200 on hover */
+}
+
+.collapsible-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+    background-color: #ffffff; /* Tailwind's bg-white */
+    border-radius: 0.5rem;
+    margin-top: 0.5rem;
+    border: 1px solid #e5e7eb;
+}
+
+.collapsible-content.show {
+    max-height: 500px; /* Adjust as needed */
+    padding: 0.75rem 1rem;
+}
+
+.completed-task-item {
+     padding: 0.5rem;
+    border-bottom: 1px solid #f3f4f6;
+}
+.completed-task-item:last-child{
+    border-bottom: none;
+}
