@@ -3,18 +3,24 @@ const menuButton = document.getElementById('menu-button');
 const sidebar = document.getElementById('sidebar');
 const contentArea = document.getElementById('content-area');
 const navLinks = document.querySelectorAll('#sidebar a');
+
 const myDaySection = document.getElementById('my-day');
 const projectsSection = document.getElementById('projects');
 const settingsSection = document.getElementById('settings');
+const calendarSection = document.getElementById('calendar');
+
+
 const addProjectButton = document.getElementById('add-project-button');
 const addProjectModal = document.getElementById('add-project-modal');
 const addProjectForm = document.getElementById('add-project-form');
+
 const closeModalButtons = document.querySelectorAll('.close-button');
 const projectList = document.getElementById('project-list');
 const noTasksMessage = document.getElementById('no-tasks');
 const tasksContainer = document.getElementById('tasks-container');
 const generateTasksButton = document.getElementById('generate-tasks-button');
 const timeAvailableInput = document.getElementById('time-available');
+const calendarButton = document.getElementById('calendar-button');
 
 let projects = JSON.parse(localStorage.getItem('projects')) || [];
 let currentSection = 'my-day';
@@ -25,6 +31,8 @@ function showSection(sectionId) {
     myDaySection.classList.add('hidden');
     projectsSection.classList.add('hidden');
     settingsSection.classList.add('hidden');
+    calendarSection.classList.add('hidden');
+    
     document.querySelector(`[data-section="${sectionId}"]`).classList.add('bg-gray-100');
     document.querySelector(`[data-section="${sectionId}"]`).classList.add('text-gray-900');
     document.querySelectorAll(`[data-section]`).forEach(link => {
