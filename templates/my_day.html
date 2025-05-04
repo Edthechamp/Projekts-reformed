@@ -1,0 +1,36 @@
+<head>
+    <link rel="stylesheet" href="static/style-my_day.css">
+    </head>
+<body>
+    <div class="sidebar" id="sidebar">
+      <h2>Menu</h2>
+      <ul>
+        <li><a href="/">My Day</a></li>
+        <li><a href="/projects">Projects</a></li>
+      </ul>
+    </div>
+  
+    <!-- Overlay to detect clicks outside -->
+    <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+  
+    <div class="main">
+      <button class="menu-btn" onclick="toggleMenu()">☰</button>
+      <h1>My Day</h1>
+      <p>How much time are you ready to work?</p>
+  
+      <div class="input-section">
+        <input type="number" id="timeInput" placeholder="Enter time in minutes">
+        <button onclick="fetchTasks()">Get Tasks</button>
+      </div>
+  
+      <div class="add-task-section">
+        <input type="text" id="customTaskInput" placeholder="Add custom task">
+        <button onclick="addCustomTask()">Add Task</button>
+      </div>
+
+      <div id="tasksContainer" class="tasks"></div>
+    </div>
+  
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+  </body>
+  

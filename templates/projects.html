@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Projects</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style-projects.css') }}">
+</head>
+<body>
+
+    <div class="sidebar" id="sidebar">
+        <h2>Menu</h2>
+        <ul>
+          <li><a href="/">My Day</a></li>
+          <li><a href="/projects">Projects</a></li>
+        </ul>
+      </div>
+    
+      <!-- Overlay to detect clicks outside -->
+      <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+    
+  <div class="main">
+    <button class="menu-btn" onclick="toggleMenu()">☰</button>
+    <h1>My Projects</h1>
+
+    <form id="projectForm" class="add-project">
+      <input type="text" id="projectName" placeholder="Enter project name" required />
+      <input type="text" id="projectDescription" placeholder="Enter project description" required />
+      <input type="date" id="projectDeadline" placeholder="Enter deadline" required />
+      <button type="submit">Add Project</button>
+    </form>
+
+    <div id="projectList" class="project-list">
+      <!-- Projects will be inserted here dynamically -->
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('projectForm');
+    const input = document.getElementById('projectName');
+    const deadLine = document.getElementById('projectDeadline');
+    const description = document.getElementById('projectDescription');
+    const list = document.getElementById('projectList');
+
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const name = input.value.trim();
+      if (!name) return;
+
+      DeadlineMilliseconds = new Date(deadLine.value).getTime();
+      if (DeadlineMilliseconds < Date.now()) {
+        alert('Please select a valid deadline.');
+        return;
+      }
+
+      const project = { id: Date.now(), name };
+      projectToFlask();
+     });
+
+    function projectToFlask() {
+        const projectName = document.getElementById('projectName').value;
+        const projectDescription = document.getElementById('projectDescription').value;
+        const projectDeadline = document.getElementById('projectDeadline').value;
+
+        console.log('Project added:', projectName, projectDescription, projectDeadline);
+
+        fetch('/addProject', {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+            name: projectName,
+            description: projectDescription,
+            deadline: projectDeadline,
+
+            })
+        })
+        
+        .then(response => response.json())
+        .then(data => {
+            renderProjects();
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
+    function removeProject(id,projectName) {
+        fetch('/removeProject', {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ projectName })
+        })
+      .then(renderProjects())
+    }
+
+    function renderProjects() {
+      list.innerHTML = '';
+      fetch('/getProjects')
+        .then(response => response.json())
+        .then(data => {
+          const projects = data.projects;
+          if (projects.length === 0) {
+            list.innerHTML = '<p>No projects available.</p>';
+            return;
+          } 
+        })
+        .catch(error => console.error('Error:', error));
+        console.log('Projects fetched:', projects);
+      projects.forEach(project => {
+        const card = document.createElement('div');
+        card.className = 'project-card';
+        card.innerHTML = `
+          <div class="info">
+            <h3>${project.name}</h3>
+          </div>
+          <div class="actions">
+            <button onclick="viewMilestones(${project.id})">Milestones</button>
+            <button onclick="removeProject(${project.id}, '${project.name}')" class="danger">Remove</button>
+          </div>
+        `;
+        list.appendChild(card);
+      });
+    }
+
+    function viewMilestones(id) {
+      alert('Milestones feature coming soon!');
+    }
+
+
+    function toggleMenu() {
+    const sidebar = document.getElementById("sidebar");
+    const overlay = document.getElementById("overlay");
+  
+    const isOpen = sidebar.classList.contains("open");
+    sidebar.classList.toggle("open");
+    overlay.classList.toggle("show", !isOpen);
+  }
+
+
+  </script>
+</body>
+</html>
