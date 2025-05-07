@@ -1,6 +1,41 @@
 body {
     font-family: 'Inter', sans-serif;
 }
+/* Sidebar */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px; /* Adjust the width of the sidebar */
+  height: 100%;
+  background-color: #333;
+  color: white;
+  padding-top: 20px;
+  z-index: 1000; /* Ensure sidebar is always above other content */
+}
+
+/* Main content */
+.main {
+  margin-left: 250px; /* Adjust this to the width of your sidebar */
+  padding: 20px;
+  transition: margin-left 0.3s ease; /* Add smooth transition for responsive layout */
+}
+
+/* Optional: Adjust if you use a responsive sidebar */
+@media screen and (max-width: 768px) {
+  .sidebar {
+    width: 200px; /* Reduce sidebar width for smaller screens */
+  }
+
+  .main {
+    margin-left: 200px; /* Adjust based on new sidebar width */
+  }
+
+  .sidebar-close-btn {
+    display: block; /* Show close button on mobile */
+  }
+}
+
 .roadmap-section {
     display: flex;
     flex-direction: column;
@@ -72,11 +107,6 @@ body {
 .completed-task-item:last-child{
     border-bottom: none;
 }
-
-
-
-
-
 
 
 /* Base styles & Font */

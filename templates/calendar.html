@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interactive Calendar with Sidebar</title>
-    <link rel="stylesheet" href="new-style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='new-style.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
-<body class="app-layout"> <aside id="sidebar" class="sidebar">
+<body class="app-layout">
+    <aside id="sidebar" class="sidebar">
         <div class="sidebar-header">
              <span class="sidebar-title">Calendar App</span>
              <button id="sidebar-close-btn" class="sidebar-close-btn md:hidden">
@@ -20,9 +21,9 @@
         <nav class="sidebar-nav">
             <h2 class="nav-heading">Menu</h2>
             <ul class="nav-list">
-                <li><a href="#" class="nav-link active"><i class="fas fa-calendar-day fa-fw mr-2"></i>My Day</a></li>
-                <li><a href="#" class="nav-link"><i class="fas fa-tasks fa-fw mr-2"></i>Projects</a></li>
-                <li><a href="#" class="nav-link"><i class="fas fa-calendar-alt fa-fw mr-2"></i>Calendar</a></li>
+                <li><a href="{{ url_for('my_day') }}" class="nav-link"><i class="fas fa-calendar-day fa-fw mr-2"></i>My Day</a></li>
+                <li><a href="{{ url_for('show_projects') }}" class="nav-link"><i class="fas fa-tasks fa-fw mr-2"></i>Projects</a></li>
+                <li><a href="{{ url_for('show_calendar') }}" class="nav-link active"><i class="fas fa-calendar-alt fa-fw mr-2"></i>Calendar</a></li>
                 <li><a href="#" class="nav-link"><i class="fas fa-cog fa-fw mr-2"></i>Settings</a></li>
             </ul>
         </nav>
@@ -69,9 +70,11 @@
             </div>
 
             <div class="calendar-grid" id="calendar-grid">
-                </div>
+                <!-- Calendar cells will be populated by JavaScript -->
+            </div>
         </div>
-         </div>
+    </div>
+    
     <div id="task-modal" class="modal" role="dialog" aria-labelledby="modal-title" aria-modal="true">
         <div class="modal-content">
             <button class="close-button" onclick="closeModal()" aria-label="Close dialog">&times;</button>
@@ -104,6 +107,6 @@
         </div>
     </div>
 
-    <script src="calendar.js"></script>
+    <script src="{{ url_for('static', filename='calendar.js') }}"></script>
 </body>
 </html>
