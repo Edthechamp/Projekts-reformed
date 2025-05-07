@@ -36,3 +36,6 @@ Stay on track with notifications and reminders for upcoming deadlines and events
 <h3>This platform is tailored for students, employees, and anyone looking to enhance their productivity by consolidating essential tools into one system. Explore the repository to see how it works and contribute to its development!</h3>
 <br>
 <p>https://docs.google.com/document/d/1XTbyoyzvRN9fPkTGZA3JjXyx60GoazqPeM2EhqO6a2I/edit?tab=t.0 First test run</p>
+<br>
+<h2>How to launch locally</h2>
+copy the github repo into a local folder. In the therminal run the app.py file (python path/app.py). A development server will be launched and the webapp can be accessed at 127.0.0.1:5000.
