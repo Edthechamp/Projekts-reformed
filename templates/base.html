@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Personal Project Manager{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    </head>
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <h2>Menu</h2>
+            <ul>
+                <li class="{{ 'active' if request.endpoint == 'my_day' else '' }}"><a href="{{ url_for('my_day') }}">My Day</a></li>
+                <li class="{{ 'active' if request.endpoint == 'projects_view' else '' }}"><a href="{{ url_for('projects_view') }}">Projects</a></li>
+                </ul>
+        </nav>
+
+        <main class="content">
+            <header class="main-header">
+                 <h1>{% block page_title %}{% endblock %}</h1>
+            </header>
+
+             {% with messages = get_flashed_messages(with_categories=true) %}
+              {% if messages %}
+                <div class="flash-messages">
+                {% for category, message in messages %}
+                  <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+                </div>
+              {% endif %}
+            {% endwith %}
+
+
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+
+    <footer>
+        </footer>
+    </body>
+</html>
