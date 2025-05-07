@@ -4,23 +4,36 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Projects</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style-projects.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='new-style.css') }}">
 </head>
-<body>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/new-style.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body class="app-layout">
 
-    <div class="sidebar" id="sidebar">
-        <h2>Menu</h2>
-        <ul>
-          <li><a href="/">My Day</a></li>
-          <li><a href="/projects">Projects</a></li>
+<!-- Sidebar (shared) -->
+<aside id="sidebar" class="sidebar">
+    <div class="sidebar-header">
+        <span class="sidebar-title">Calendar App</span>
+        <button id="sidebar-close-btn" class="sidebar-close-btn md:hidden">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    <nav class="sidebar-nav">
+        <h2 class="nav-heading">Menu</h2>
+        <ul class="nav-list">
+            <li><a href="{{ url_for('my_day') }}" class="nav-link"><i class="fas fa-calendar-day fa-fw mr-2"></i>My Day</a></li>
+            <li><a href="{{ url_for('show_projects') }}" class="nav-link active"><i class="fas fa-tasks fa-fw mr-2"></i>Projects</a></li>
+            <li><a href="{{ url_for('show_calendar') }}" class="nav-link"><i class="fas fa-calendar-alt fa-fw mr-2"></i>Calendar</a></li>
+            <li><a href="#" class="nav-link"><i class="fas fa-cog fa-fw mr-2"></i>Settings</a></li>
         </ul>
-      </div>
-    
-      <!-- Overlay to detect clicks outside -->
-      <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
-    
+    </nav>
+    <div class="sidebar-footer">
+        <p>&copy; 2025 Calendar</p>
+    </div>
+</aside>
+
   <div class="main">
-    <button class="menu-btn" onclick="toggleMenu()">☰</button>
     <h1>My Projects</h1>
 
     <form id="projectForm" class="add-project">

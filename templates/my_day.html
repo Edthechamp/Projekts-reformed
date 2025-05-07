@@ -1,36 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <link rel="stylesheet" href="static/style-my_day.css">
-    </head>
-<body>
-    <div class="sidebar" id="sidebar">
-      <h2>Menu</h2>
-      <ul>
-        <li><a href="/">My Day</a></li>
-        <li><a href="/projects">Projects</a></li>
-      </ul>
-    </div>
-  
-    <!-- Overlay to detect clicks outside -->
-    <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
-  
-    <div class="main">
-      <button class="menu-btn" onclick="toggleMenu()">☰</button>
-      <h1>My Day</h1>
-      <p>How much time are you ready to work?</p>
-  
-      <div class="input-section">
-        <input type="number" id="timeInput" placeholder="Enter time in minutes">
-        <button onclick="fetchTasks()">Get Tasks</button>
-      </div>
-  
-      <div class="add-task-section">
-        <input type="text" id="customTaskInput" placeholder="Add custom task">
-        <button onclick="addCustomTask()">Add Task</button>
-      </div>
+    <meta charset="UTF-8">
+    <title>My Day</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/new-style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body class="app-layout">
 
-      <div id="tasksContainer" class="tasks"></div>
-    </div>
+    <!-- Sidebar (shared) -->
+    <aside id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <span class="sidebar-title">Calendar App</span>
+            <button id="sidebar-close-btn" class="sidebar-close-btn md:hidden">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <nav class="sidebar-nav">
+            <h2 class="nav-heading">Menu</h2>
+            <ul class="nav-list">
+                <li><a href="{{ url_for('my_day') }}" class="nav-link active"><i class="fas fa-calendar-day fa-fw mr-2"></i>My Day</a></li>
+                <li><a href="{{ url_for('show_projects') }}" class="nav-link"><i class="fas fa-tasks fa-fw mr-2"></i>Projects</a></li>
+                <li><a href="{{ url_for('show_calendar') }}" class="nav-link"><i class="fas fa-calendar-alt fa-fw mr-2"></i>Calendar</a></li>
+                <li><a href="#" class="nav-link"><i class="fas fa-cog fa-fw mr-2"></i>Settings</a></li>
+            </ul>
+        </nav>
+        <div class="sidebar-footer">
+            <p>&copy; 2025 Calendar</p>
+        </div>
+    </aside>
+
+    <!-- Main Content (your My Day UI) -->
+        <!-- Main content -->
+        <div class="main-content">
+          <div class="content-wrapper">
+              <button class="menu-btn md:hidden" onclick="toggleMenu()">☰</button>
+              <h1>My Day</h1>
+              <p>How much time are you ready to work?</p>
   
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
-  </body>
+              <div class="input-section">
+                  <input type="number" id="timeInput" placeholder="Enter time in minutes">
+                  <button onclick="fetchTasks()">Get Tasks</button>
+              </div>
   
+              <div class="add-task-section">
+                  <input type="text" id="customTaskInput" placeholder="Add custom task">
+                  <button onclick="addCustomTask()">Add Task</button>
+              </div>
+  
+              <div id="tasksContainer" class="tasks"></div>
+          </div>
+      </div>
+  
+      <!-- JS -->
+      <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
