@@ -9,24 +9,25 @@ function toggleMenu() {
   
   function fetchTasks() {
     const minutes = document.getElementById("timeInput").value;
+    const projectName = document.getElementById("projectSelector").value;
+  
     fetch('/get_tasks', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ minutes: parseInt(minutes) })
+      body: JSON.stringify({
+        minutes: parseInt(minutes),
+        project: projectName 
+      })
     })
     .then(response => {
-      console.log("Raw response:", response);
       return response.json();
     })
     .then(data => {
-      console.log(data)
       const container = document.getElementById("tasksContainer");
       container.innerHTML = '';
-      console.log(data);
-      console.log("inside tasks:")
-      console.log(data.tasks);
+      console.log("inside tasks:", data.tasks);
       data.tasks.forEach(task => {
         const div = createTaskElement(task);
         container.appendChild(div);
@@ -50,7 +51,8 @@ function toggleMenu() {
         removeButton.className = 'remove-btn';
         removeButton.onclick = () => {
             //pass complted task to server
-            fetch('/remove_task', {
+            console.log(taskText)
+            fetch('/completed_task', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -66,6 +68,33 @@ function toggleMenu() {
         return div;
       }
 
+      function renderTasks() {
+        fetch('/task_list', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({})
+        })
+        .then(response => response.json())
+        .then(data => {
+          const container = document.getElementById("tasksContainer");
+          container.innerHTML = ''; // Clear existing tasks
+      
+          if (data.tasks && Array.isArray(data.tasks)) {
+            data.tasks.forEach(task => {
+              const div = createTaskElement(task);
+              container.appendChild(div);
+            });
+          } else {
+            container.innerHTML = '<p>No tasks found.</p>';
+          }
+        })
+        .catch(error => {
+          console.error("Error fetching task list:", error);
+        });
+      }
+      
     function makeEditable(taskTextNode) {
         const input = document.createElement('input');
         input.value = taskTextNode.innerText;
@@ -88,6 +117,14 @@ function toggleMenu() {
     function addCustomTask() {
         const customTaskInput = document.getElementById("customTaskInput");
         const customTaskText = customTaskInput.value.trim();
+        fetch('/customTask', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ task: customTaskText })
+      })
+      
         
         if (customTaskText) {
           const container = document.getElementById("tasksContainer");
@@ -95,5 +132,9 @@ function toggleMenu() {
           container.appendChild(div);
           customTaskInput.value = '';  // Clear input
         }
+        
       }
-  
+
+    window.onload = function() {
+      renderTasks();
+    }

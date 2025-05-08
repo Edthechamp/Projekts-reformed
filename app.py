@@ -10,20 +10,45 @@ app.secret_key = 'typeshi' # Important for flashing messages
 # --- In-Memory Data Storage ---
 # Replace with database interactions in a real app
 projects = [] # { project_id: {'name': 'Project Name', 'tasks': [task_id1, task_id2]} }
-tasks = {}    # { task_id: {'description': 'Task Desc', 'project_id': 'proj_id', 'status': 'pending'/'allocated'/'completed', 'estimated_time_h': 4, 'completed_at': None} }
+tasks_list = []   # { task_id: {'description': 'Task Desc', 'project_id': 'proj_id', 'status': 'pending'/'allocated'/'completed', 'estimated_time_h': 4, 'completed_at': None} }
 my_day_tasks = [] # List of task_ids allocated for "My Day"
 
 @app.route('/')
 def my_day():
-    return render_template("my_day.html",)
+    currentProjects = []
+    for project in projects:
+        if project['name'] not in currentProjects:
+            currentProjects.append(project['name'])
+    return render_template("my_day.html",projects=currentProjects)
+
+@app.route('/task_list',methods=['POST'])
+def task_list():   
+    return jsonify({"tasks":tasks_list})
+
+@app.route('/customTask',methods=['POST'])
+def custom_task():
+    data = request.get_json()
+    task = data.get('task')
+    if task not in tasks_list:
+        tasks_list.append(task)
+    return jsonify({'message': 'added succesfully'}), 200
+
 @app.route('/get_tasks', methods=['POST'])
 def get_tasks():
     tasks= []
     response = request.get_json()
     print(response)
     
-    project = response.get('project')
+    project_name = response.get('project') 
 
+    print("project_name", project_name)
+
+    for p in projects:
+        if p['name'] == project_name:
+            project=p
+            break
+
+    print(project)
 
     time = response.get('minutes')
     prompt = "Generate a list of tasks for the project: " + project['name'] + " with the following description: " + project['description'] + ".I dont have to finish the project now just have to get started with it. I have " + str(time) + " minutes for the tasks. Make the tasks short and concise but detailed, so that i can start working immediatly. The tasks should be in the format: ['Task1', 'Task2', 'Task3']. Make sure to output ONLY the list without any surrounding text! Ill repeat, output ONLY THE LIST!"
@@ -37,25 +62,29 @@ def get_tasks():
     tasks = tasks_reponse.text
 
 
-    print("before:",type(tasks), "and", tasks)
-
     tasks = ast.literal_eval(tasks)
 
-    print("after:",type(tasks), "and", tasks)
-
     print(tasks)
-
-
+    #git command to push to new branch: 
+    for task in tasks:
+        if task not in tasks_list:
+            tasks_list.append(task)
     
-    print("jsonified",jsonify(tasks))
     return jsonify({ 'tasks': tasks })
 
 
 @app.route('/completed_task', methods=['POST'])
 def completed_task():
     data = request.get_json()
-    task = data.get('taskText')
-    tasks.append(task)
+    task = data.get('task')
+    if task in tasks_list:
+        tasks_list.remove(task)
+    
+    return jsonify({'message': 'removed succesfully'}), 200
+    #TODO:save completed task to project for better future task generation
+    #need to somehow manage which project the task belongs to, then
+    #project['completed_tasks'].append(task)
+    #also rememebr to edit the prompt, to pass completed tasks.
 
 
 @app.route('/projects')
