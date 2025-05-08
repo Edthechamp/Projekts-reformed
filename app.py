@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 from datetime import datetime
 import google.generativeai as genai
+import ast
 
 
 app = Flask(__name__)
@@ -17,14 +18,17 @@ def my_day():
     return render_template("my_day.html",)
 @app.route('/get_tasks', methods=['POST'])
 def get_tasks():
+    tasks= []
     response = request.get_json()
     print(response)
     
-    project = projects[0]
-    print(project['name'])
+    project = response.get('project')
+
 
     time = response.get('minutes')
-    prompt = "Generate a list of tasks for the project: " + project['name'] + " with the following description: " + project['description'] + ". I have " + str(time) + " minutes for the tasks. Make the tasks detailed, so that i can start working immediatly. The tasks should be in the format: ['Task1', 'Task2', 'Task3']. Make sure to output ONLY the list without any surrounding text! Ill repeat, output ONLY THE LIST!"
+    prompt = "Generate a list of tasks for the project: " + project['name'] + " with the following description: " + project['description'] + ".I dont have to finish the project now just have to get started with it. I have " + str(time) + " minutes for the tasks. Make the tasks short and concise but detailed, so that i can start working immediatly. The tasks should be in the format: ['Task1', 'Task2', 'Task3']. Make sure to output ONLY the list without any surrounding text! Ill repeat, output ONLY THE LIST!"
+
+    print(prompt)
 
     genai.configure(api_key="AIzaSyBFuijWXQSDFPaExjPMkHNeTruLXFwwYyM")
     model = genai.GenerativeModel(model_name="gemini-2.0-flash")
@@ -32,9 +36,20 @@ def get_tasks():
     tasks_reponse = model.generate_content(prompt)
     tasks = tasks_reponse.text
 
+
+    print("before:",type(tasks), "and", tasks)
+
+    tasks = ast.literal_eval(tasks)
+
+    print("after:",type(tasks), "and", tasks)
+
     print(tasks)
+
+
+    
     print("jsonified",jsonify(tasks))
-    return jsonify(tasks)
+    return jsonify({ 'tasks': tasks })
+
 
 @app.route('/completed_task', methods=['POST'])
 def completed_task():

@@ -16,10 +16,17 @@ function toggleMenu() {
       },
       body: JSON.stringify({ minutes: parseInt(minutes) })
     })
-    .then(response => response.json())
+    .then(response => {
+      console.log("Raw response:", response);
+      return response.json();
+    })
     .then(data => {
+      console.log(data)
       const container = document.getElementById("tasksContainer");
       container.innerHTML = '';
+      console.log(data);
+      console.log("inside tasks:")
+      console.log(data.tasks);
       data.tasks.forEach(task => {
         const div = createTaskElement(task);
         container.appendChild(div);

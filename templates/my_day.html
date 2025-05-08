@@ -21,6 +21,13 @@
       <div class="input-section">
         <input type="number" id="timeInput" placeholder="Enter time in minutes">
         <button onclick="fetchTasks()">Get Tasks</button>
+        <!-- add project selector-->>
+        <select id="projectSelector" onchange="updateTasks()">
+          <option value="">Select Project</option>
+          {% for project in projects %}
+            <option value="{{ project }}">{{ project }}</option>
+          {% endfor %}
+          
       </div>
   
       <div class="add-task-section">
