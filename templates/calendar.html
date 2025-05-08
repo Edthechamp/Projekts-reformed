@@ -104,6 +104,19 @@
                 <button onclick="saveTask()" class="save-btn">Save Task</button>
                 <button onclick="closeModal()" class="cancel-btn">Cancel</button>
             </div>
+            <div>
+                <label for="task-label">Label:</label>
+                <select id="task-label">
+                    <!-- These options will be populated by JavaScript createLabelDropdown() method -->
+                    <option value="work">Work</option>
+                    <option value="personal">Personal</option>
+                    <option value="health">Health</option>
+                    <option value="study">Study</option>
+                    <option value="meeting">Meeting</option>
+                    <option value="travel">Travel</option>
+                    <option value="other" selected>Other</option>
+                </select>
+            </div>
         </div>
     </div>
 
